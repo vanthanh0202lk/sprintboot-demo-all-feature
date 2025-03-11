@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public CommentDto createComment(long postId, CommentDto commentDto) {
         try {
-                System.out.println("thanh commentDto: "+commentDto);
+                System.out.println("thanh commentDto: "+commentDto) ;
 
                 Comment comment = mapToEntity(commentDto);
                     System.out.println("thanh commentMain: "+comment);
