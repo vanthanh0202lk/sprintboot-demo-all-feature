@@ -52,4 +52,6 @@ public class PostController {
         return new ResponseEntity<>("Post entity delete successfully",HttpStatus.OK);
     }
 
+
+
 }
