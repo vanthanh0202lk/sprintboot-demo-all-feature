@@ -8,6 +8,7 @@ import com.springboot.blog.payload.CommentDto;
 import com.springboot.blog.repository.CommentReposity;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,28 +22,47 @@ public class CommentServiceImpl implements CommentService {
 
     private final PostRepository postRepository;
     private CommentReposity commentRepository;
+    private ModelMapper mapper;
 
-    public CommentServiceImpl(CommentReposity commentRepository, PostRepository postRepository) {
+    public CommentServiceImpl(CommentReposity commentRepository, PostRepository postRepository, ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
 
     private Comment mapToEntity(CommentDto commentDto) {
-        Comment comment = new Comment();
-        comment.setId(commentDto.getId());
-        comment.setName(commentDto.getName());
-        comment.setEmail(commentDto.getEmail());
-        comment.setBody(commentDto.getBody());
-        return comment;
+        /**
+         * 1. Create a new Comment object
+         * 2. Set the id, name, email, and body of the Comment object to the id, name, email, and body of the CommentDto object, respectively
+         * 3. Return the Comment object
+         */
+        //Old Code
+//        Comment comment = new Comment();
+//        comment.setId(commentDto.getId());
+//        comment.setName(commentDto.getName());
+//        comment.setEmail(commentDto.getEmail());
+//        comment.setBody(commentDto.getBody());
+//        return comment;
+        //New Code
+        return mapper.map(commentDto, Comment.class);
     }
 
     private CommentDto mapToDTO(Comment comment) {
-        CommentDto commentDto = new CommentDto();
-        commentDto.setId(comment.getId());
-        commentDto.setName(comment.getName());
-        commentDto.setEmail(comment.getEmail());
-        commentDto.setBody(comment.getBody());
-        commentDto.setPostId(comment.getPost().getId());
+        /**
+         * 1. Create a new CommentDto object
+         * 2. Set the id, name, email, body, and postId of the CommentDto object to the id, name, email, body, and post id of the Comment object, respectively
+         * 3. Return the CommentDto object
+         */
+        //Old Code
+//        CommentDto commentDto = new CommentDto();
+//        commentDto.setId(comment.getId());
+//        commentDto.setName(comment.getName());
+//        commentDto.setEmail(comment.getEmail());
+//        commentDto.setBody(comment.getBody());
+//        commentDto.setPostId(comment.getPost().getId());
+//        return commentDto;
+        //New Code
+        CommentDto commentDto = mapper.map(comment, CommentDto.class);
         return commentDto;
     }
 
